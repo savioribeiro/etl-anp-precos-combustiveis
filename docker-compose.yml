@@ -1,0 +1,26 @@
+services:
+  db:
+    image: postgres:15
+    container_name: etl_combustiveis_db
+    restart: always
+    environment:
+      POSTGRES_DB: etl_combustiveis
+      POSTGRES_USER: etl_user
+      POSTGRES_PASSWORD: sua_senha_forte
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  etl:
+    build: .
+    container_name: etl_combustiveis_app
+    depends_on:
+      - db
+    environment:
+      DB_URL: postgresql://etl_user:sua_senha_forte@db:5432/etl_combustiveis
+      DB_SCHEMA: public
+    command: ["python", "main.py"]
+
+volumes:
+  pgdata:
