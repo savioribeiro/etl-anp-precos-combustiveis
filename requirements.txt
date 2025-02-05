@@ -1,6 +1,4 @@
 pandas
-requests
-sqlalchemy
 openpyxl
 pyxlsb
 python-dotenv
